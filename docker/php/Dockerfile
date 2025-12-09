@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.4-fpm
 
 # Instalar extensiones y herramientas básicas
 RUN apt-get update && apt-get install -y \
