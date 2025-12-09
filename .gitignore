@@ -1,8 +1,15 @@
-/vendor/
-/.idea/
-/.vscode/
+
+###> symfony/framework-bundle ###
 /.env.local
-/.env.test.local
-/node_modules/
-/.php_cs.cache
-/.phpunit.result.cache
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
