@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\GastoRepository;
+use App\Repository\ExpenseRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: GastoRepository::class)]
-#[ORM\Table(name: 'gastos')]
-class Gasto
+#[ORM\Entity(repositoryClass: ExpenseRepository::class)]
+#[ORM\Table(name: 'expenses')]
+class Expense
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,16 +16,16 @@ class Gasto
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $descripcion = null;
+    private ?string $description = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $monto = null;
+    private ?string $amount = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $fecha = null;
+    private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $categoria = null;
+    private ?string $category = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
@@ -33,7 +33,7 @@ class Gasto
     public function __construct()
     {
         $this->createdAt = new \DateTime();
-        $this->fecha = new \DateTime();
+        $this->date = new \DateTime();
     }
 
     public function getId(): ?int
@@ -41,50 +41,50 @@ class Gasto
         return $this->id;
     }
 
-    public function getDescripcion(): ?string
+    public function getDescription(): ?string
     {
-        return $this->descripcion;
+        return $this->description;
     }
 
-    public function setDescripcion(string $descripcion): static
+    public function setDescription(string $description): static
     {
-        $this->descripcion = $descripcion;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getMonto(): ?string
+    public function getAmount(): ?string
     {
-        return $this->monto;
+        return $this->amount;
     }
 
-    public function setMonto(string $monto): static
+    public function setAmount(string $amount): static
     {
-        $this->monto = $monto;
+        $this->amount = $amount;
 
         return $this;
     }
 
-    public function getFecha(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->fecha;
+        return $this->date;
     }
 
-    public function setFecha(\DateTimeInterface $fecha): static
+    public function setDate(\DateTimeInterface $date): static
     {
-        $this->fecha = $fecha;
+        $this->date = $date;
 
         return $this;
     }
 
-    public function getCategoria(): ?string
+    public function getCategory(): ?string
     {
-        return $this->categoria;
+        return $this->category;
     }
 
-    public function setCategoria(?string $categoria): static
+    public function setCategory(?string $category): static
     {
-        $this->categoria = $categoria;
+        $this->category = $category;
 
         return $this;
     }
