@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Expenses - Saldop{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>Expenses</h1>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{{ path('app_expense_new') }}" class="btn btn-primary">Add Expense</a>
+        </div>
+    </div>
+
+    {% if expenses is empty %}
+        <div class="alert alert-info">
+            No expenses found. <a href="{{ path('app_expense_new') }}">Create one</a>
+        </div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                        <tr>
+                            <td>{{ expense.description }}</td>
+                            <td>${{ expense.amount }}</td>
+                            <td>
+                                {% if expense.category %}
+                                    <span class="badge bg-secondary">{{ expense.category }}</span>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ expense.date|date('Y-m-d') }}</td>
+                            <td>
+                                <a href="{{ path('app_expense_show', {'id': expense.id}) }}" class="btn btn-sm btn-info">View</a>
+                                <a href="{{ path('app_expense_edit', {'id': expense.id}) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <form method="POST" action="{{ path('app_expense_delete', {'id': expense.id}) }}" style="display:inline;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ expense.id) }}">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
