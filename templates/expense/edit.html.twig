@@ -8,6 +8,17 @@
         <div class="col-md-6 offset-md-3">
             <h1>Edit Expense</h1>
 
+            {% if errors is defined and errors|length > 0 %}
+                <div class="alert alert-danger mt-3">
+                    <strong>Please fix the following errors:</strong>
+                    <ul class="mb-0">
+                        {% for error in errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
             <form method="POST" class="mt-4">
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>

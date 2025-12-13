@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/expenses', name: 'app_expense_')]
 class ExpenseController extends AbstractController
@@ -24,7 +25,7 @@ class ExpenseController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em, ValidatorInterface $validator): Response
     {
         $expense = new Expense();
 
@@ -37,9 +38,18 @@ class ExpenseController extends AbstractController
                 $expense->setDate(new \DateTime($date));
             }
 
+            $errors = $validator->validate($expense);
+            if (count($errors) > 0) {
+                return $this->render('expense/new.html.twig', [
+                    'expense' => $expense,
+                    'errors' => $errors,
+                ]);
+            }
+
             $em->persist($expense);
             $em->flush();
 
+            $this->addFlash('success', 'Expense created successfully!');
             return $this->redirectToRoute('app_expense_index');
         }
 
@@ -57,7 +67,7 @@ class ExpenseController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Expense $expense, EntityManagerInterface $em): Response
+    public function edit(Request $request, Expense $expense, EntityManagerInterface $em, ValidatorInterface $validator): Response
     {
         if ($request->isMethod('POST')) {
             $expense->setDescription($request->request->get('description'));
@@ -68,8 +78,17 @@ class ExpenseController extends AbstractController
                 $expense->setDate(new \DateTime($date));
             }
 
+            $errors = $validator->validate($expense);
+            if (count($errors) > 0) {
+                return $this->render('expense/edit.html.twig', [
+                    'expense' => $expense,
+                    'errors' => $errors,
+                ]);
+            }
+
             $em->flush();
 
+            $this->addFlash('success', 'Expense updated successfully!');
             return $this->redirectToRoute('app_expense_show', ['id' => $expense->getId()]);
         }
 
