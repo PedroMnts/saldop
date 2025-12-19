@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api/expenses', name: 'api_expense_')]
 class ExpenseApiController extends AbstractController
@@ -18,7 +17,6 @@ class ExpenseApiController extends AbstractController
     public function __construct(
         private ExpenseRepository $repository,
         private EntityManagerInterface $em,
-        private SerializerInterface $serializer,
     ) {
     }
 
